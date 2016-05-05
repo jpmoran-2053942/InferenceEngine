@@ -1,0 +1,9 @@
+F:\2016s1\COS30019\Assignment 2\Program\InferenceEngine\InferenceEngine\bin\Debug\InferenceEngine.exe
+F:\2016s1\COS30019\Assignment 2\Program\InferenceEngine\InferenceEngine\bin\Debug\InferenceEngine.pdb
+F:\2016s1\COS30019\Assignment 2\Program\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.exe
+F:\2016s1\COS30019\Assignment 2\Program\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.pdb
+E:\2016s1\COS30019\Assignment 2\Program\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.exe
+E:\2016s1\COS30019\Assignment 2\Program\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.pdb
+E:\2016s1\COS30019\Assignment 2\Program\InferenceEngine\InferenceEngine\bin\Debug\InferenceEngine.exe
+E:\2016s1\COS30019\Assignment 2\Program\InferenceEngine\InferenceEngine\bin\Debug\InferenceEngine.pdb
+E:\2016s1\COS30019\Assignment 2\Program\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.csprojResolveAssemblyReference.cache

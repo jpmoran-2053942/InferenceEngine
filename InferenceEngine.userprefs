@@ -1,0 +1,14 @@
+﻿<Properties StartupItem="InferenceEngine\InferenceEngine.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="InferenceEngine\FileReader.cs">
+    <Files>
+      <File FileName="InferenceEngine\Program.cs" Line="11" Column="42" />
+      <File FileName="InferenceEngine\FileReader.cs" Line="4" Column="105" />
+      <File FileName="InferenceEngine\HornClauseStruct.cs" Line="10" Column="6" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
