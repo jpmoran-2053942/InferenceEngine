@@ -10,9 +10,9 @@ namespace InferenceEngine
             FileReader reader = new FileReader();
             ConjunctiveNormalForm CNF = new ConjunctiveNormalForm();
 
-            reader.readFile("test2.txt");
+            reader.readFile("testcomplex.txt");
             List<NodeOrStringInterface> convertedStringList = CNF.ConvertToStringList(reader.GetKBEntry(0));
-            CNF.CreateBinaryTree(convertedStringList);
+            NodeOrStringInterface test = CNF.CreateBinaryTree(convertedStringList);
 
             Console.ReadLine();
         }
