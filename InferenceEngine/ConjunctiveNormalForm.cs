@@ -16,16 +16,23 @@ namespace InferenceEngine
         }
         public Node CreateBinaryTree(string propositionalLogic)
         {
-            List<string> convertedStringList = ConvertToStringList(propositionalLogic);
+            List<NodeOrStringInterface> convertedStringList = ConvertToStringList(propositionalLogic);
 
+            foreach (NodeOrStringInterface s in convertedStringList)
+            {
+                if (s.Equals("("))
+                {
+
+                }
+            }
 
             return null;
         }
 
-        private List<string> ConvertToStringList(string propositionalLogic)
+        private List<NodeOrStringInterface> ConvertToStringList(string propositionalLogic)
         {
             string tempString = "";
-            List<string> returningList = new List<string>();
+            List<NodeOrStringInterface> returningList = new List<NodeOrStringInterface>();
 
             for (int i = 0; i < propositionalLogic.Length; i++)
             {
@@ -33,9 +40,9 @@ namespace InferenceEngine
                 {
                     if (!tempString.Equals(""))
                     {
-                        returningList.Add(tempString);
+                        returningList.Add(new HoldsString(tempString));
                     }
-                    returningList.Add(propositionalLogic[i].ToString());
+                    returningList.Add(new HoldsString(propositionalLogic[i].ToString()));
                     tempString = "";
                 }
                 else

@@ -10,9 +10,19 @@ namespace InferenceEngine
     {
         string _value;
 
+        public HoldsString(string value)
+        {
+            _value = value;
+        }
+
         public Node GetNode()
         {
             return new LeafNode(_value);
+        }
+
+        public bool IsEqualTo(string checkValue)
+        {
+            return _value.Equals(checkValue);
         }
     }
 }

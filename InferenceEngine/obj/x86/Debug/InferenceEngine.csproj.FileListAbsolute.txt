@@ -7,3 +7,5 @@ E:\2016s1\COS30019\Assignment 2\Program\InferenceEngine\InferenceEngine\obj\x86\
 E:\2016s1\COS30019\Assignment 2\Program\InferenceEngine\InferenceEngine\bin\Debug\InferenceEngine.exe
 E:\2016s1\COS30019\Assignment 2\Program\InferenceEngine\InferenceEngine\bin\Debug\InferenceEngine.pdb
 E:\2016s1\COS30019\Assignment 2\Program\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.csprojResolveAssemblyReference.cache
+D:\Uni\2016 S1\Introduction to Artificial Intelligence\Assignments\Assignment 2\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.exe
+D:\Uni\2016 S1\Introduction to Artificial Intelligence\Assignments\Assignment 2\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.pdb

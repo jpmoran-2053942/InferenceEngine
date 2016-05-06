@@ -12,5 +12,10 @@ namespace InferenceEngine
         {
             return this;
         }
+
+        public bool IsEqualTo(string checkValue)
+        {
+            return false;
+        }
     }
 }
