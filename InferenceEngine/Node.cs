@@ -17,5 +17,10 @@ namespace InferenceEngine
         {
             return false;
         }
+
+        public bool IsANode()
+        {
+            return true;
+        }
     }
 }

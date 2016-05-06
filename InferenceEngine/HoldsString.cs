@@ -24,5 +24,10 @@ namespace InferenceEngine
         {
             return _value.Equals(checkValue);
         }
+
+        public bool IsANode()
+        {
+            return false;
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace InferenceEngine
     {
         Node GetNode();
         bool IsEqualTo(string checkValue);
+        bool IsANode();
     }
 }

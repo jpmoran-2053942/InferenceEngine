@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace InferenceEngine
 {
@@ -10,7 +11,8 @@ namespace InferenceEngine
             ConjunctiveNormalForm CNF = new ConjunctiveNormalForm();
 
             reader.readFile("test2.txt");
-            CNF.CreateBinaryTree(reader.GetKBEntry(0));
+            List<NodeOrStringInterface> convertedStringList = CNF.ConvertToStringList(reader.GetKBEntry(0));
+            CNF.CreateBinaryTree(convertedStringList);
 
             Console.ReadLine();
         }
