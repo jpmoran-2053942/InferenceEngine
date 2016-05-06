@@ -6,7 +6,21 @@ using System.Threading.Tasks;
 
 namespace InferenceEngine
 {
-    class NOTNode: Node
+    class NOTNode : Node
     {
+        private NodeOrStringInterface _child;
+
+        public NOTNode(NodeOrStringInterface child)
+        {
+            _child = child;
+        }
+
+        public NodeOrStringInterface Child
+        {
+            get
+            {
+                return _child;
+            }
+        }
     }
 }

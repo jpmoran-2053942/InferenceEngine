@@ -6,11 +6,21 @@ using System.Threading.Tasks;
 
 namespace InferenceEngine
 {
-    abstract class Node: NodeOrStringInterface
+    abstract class Node : NodeOrStringInterface
     {
         public Node GetNode()
         {
             return this;
+        }
+
+        public bool IsEqualTo(string checkValue)
+        {
+            return false;
+        }
+
+        public bool IsANode()
+        {
+            return true;
         }
     }
 }

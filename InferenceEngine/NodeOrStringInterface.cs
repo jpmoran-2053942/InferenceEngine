@@ -9,5 +9,7 @@ namespace InferenceEngine
     interface NodeOrStringInterface
     {
         Node GetNode();
+        bool IsEqualTo(string checkValue);
+        bool IsANode();
     }
 }
