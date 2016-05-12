@@ -22,5 +22,7 @@ namespace InferenceEngine
         {
             return true;
         }
+
+        public abstract bool Evaluate(Dictionary<string, bool> model);
     }
 }

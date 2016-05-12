@@ -29,5 +29,10 @@ namespace InferenceEngine
         {
             return false;
         }
+
+        public bool Evaluate(Dictionary<string, bool> model)
+        {
+            throw new Exception("Node not properly converted from string to leaf node");
+        }
     }
 }

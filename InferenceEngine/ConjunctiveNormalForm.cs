@@ -163,5 +163,21 @@ namespace InferenceEngine
             }
             return returningList;
         }
+
+        public bool EvaluateLogic(string propositionalLogic, Dictionary<string, bool> model)
+        {
+            List<NodeOrStringInterface> convertedList = ConvertToStringList(propositionalLogic);
+            bool result = false; 
+
+            try
+            {
+                result = CreateBinaryTree(convertedList).Evaluate(model);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return result;
+        }
     }
 }

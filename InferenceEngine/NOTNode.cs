@@ -22,5 +22,10 @@ namespace InferenceEngine
                 return _child;
             }
         }
+
+        public override bool Evaluate(Dictionary<string, bool> model)
+        {
+            return !(_child.Evaluate(model));
+        }
     }
 }

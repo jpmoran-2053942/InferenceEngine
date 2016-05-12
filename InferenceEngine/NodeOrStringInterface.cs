@@ -11,5 +11,6 @@ namespace InferenceEngine
         Node GetNode();
         bool IsEqualTo(string checkValue);
         bool IsANode();
+        bool Evaluate(Dictionary<string, bool> model);
     }
 }
