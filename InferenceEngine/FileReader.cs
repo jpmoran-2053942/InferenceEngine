@@ -82,6 +82,11 @@ namespace InferenceEngine
             return null;
         }
 
+        public string[] GetKB()
+        {
+            return _knowledgeBase;
+        }
+
         public string GetKBEntry(int num)
         {
             return _knowledgeBase[num];

@@ -161,7 +161,12 @@ namespace InferenceEngine
                     tempString += propositionalLogic[i];
                 }
             }
+            if(tempString != "")
+            {
+                returningList.Add(new HoldsString(tempString));
+            }
             return returningList;
         }
+
     }
 }
