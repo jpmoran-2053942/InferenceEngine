@@ -1,5 +1,10 @@
 # InferenceEngine
 
+Changes in cnf-convert
+ - Added a class to convert propositional logic to CNF
+ - The function takes a knowledge base and converts it to a CNF sentence
+ - The knowledge base must be in permissible form and use single characters for connectives
+
 Changes in binary-tree-multi-bracket-fix-a
  - Fixes bugs in ConjunctiveNormalForm.CreateBinaryTree(string):
   - If multiple brackets appear in a sentence, only the final set will be addressed (nested brackets work fine)
