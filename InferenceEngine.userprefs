@@ -1,10 +1,10 @@
 ﻿<Properties StartupItem="InferenceEngine\InferenceEngine.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="InferenceEngine\FileReader.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="InferenceEngine\ConjunctiveNormalForm.cs">
     <Files>
-      <File FileName="InferenceEngine\Program.cs" Line="11" Column="42" />
-      <File FileName="InferenceEngine\FileReader.cs" Line="4" Column="105" />
-      <File FileName="InferenceEngine\HornClauseStruct.cs" Line="10" Column="6" />
+      <File FileName="InferenceEngine\Program.cs" Line="1" Column="1" />
+      <File FileName="InferenceEngine\ConjunctiveNormalForm.cs" Line="1" Column="1" />
+      <File FileName="f:\2016s1\COS30019\Assignment2\Program\Git\InferenceEngine\InferenceEngine\FileReader.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -35,6 +35,7 @@
   <ItemGroup>
     <Compile Include="ANDNode.cs" />
     <Compile Include="ConjunctiveNormalForm.cs" />
+    <Compile Include="ConvertToCNF.cs" />
     <Compile Include="LeafNode.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="HoldsString.cs" />

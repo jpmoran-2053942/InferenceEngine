@@ -16,3 +16,14 @@ F:\2016s1\COS30019\Assignment2\Program\Git\InferenceEngine\InferenceEngine\bin\D
 F:\2016s1\COS30019\Assignment2\Program\Git\InferenceEngine\InferenceEngine\bin\Debug\InferenceEngine.pdb
 F:\2016s1\COS30019\Assignment2\Program\Git\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.exe
 F:\2016s1\COS30019\Assignment2\Program\Git\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.pdb
+E:\2016s1\COS30019\Assignment2\Program\Git\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.exe
+E:\2016s1\COS30019\Assignment2\Program\Git\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.pdb
+E:\2016s1\COS30019\Assignment2\Program\Git\InferenceEngine\InferenceEngine\bin\Debug\InferenceEngine.exe
+E:\2016s1\COS30019\Assignment2\Program\Git\InferenceEngine\InferenceEngine\bin\Debug\InferenceEngine.pdb
+E:\2016s1\COS30019\Assignment2\Program\Git\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.csprojResolveAssemblyReference.cache
+C:\Users\James\Desktop\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.exe
+C:\Users\James\Desktop\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.pdb
+C:\Users\James\Desktop\InferenceEngine\InferenceEngine\bin\Debug\InferenceEngine.exe
+C:\Users\James\Desktop\InferenceEngine\InferenceEngine\bin\Debug\InferenceEngine.pdb
+C:\Users\James\Desktop\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.csprojResolveAssemblyReference.cache
+F:\2016s1\COS30019\Assignment2\Program\Git\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.csprojResolveAssemblyReference.cache

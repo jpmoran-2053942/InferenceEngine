@@ -1,5 +1,10 @@
 # InferenceEngine
 
+Changes in cnf-convert
+ - Added a class to convert propositional logic to CNF
+ - The function takes a knowledge base and converts it to a CNF sentence
+ - The knowledge base must be in permissible form and use single characters for connectives
+ 
 Changes in add-evaluate-nodes-functionality
  - Adds evaluate node function to all classes inheriting from NodeOrStringInterface
  - EvaluateLogic function added to CNF class to evaluate whether a given statement is true or false
