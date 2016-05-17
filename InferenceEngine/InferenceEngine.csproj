@@ -34,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ANDNode.cs" />
+    <Compile Include="ClauseParsing.cs" />
     <Compile Include="ConjunctiveNormalForm.cs" />
     <Compile Include="ConvertToCNF.cs" />
     <Compile Include="LeafNode.cs" />
@@ -46,6 +47,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileReader.cs" />
     <Compile Include="HornClauseStruct.cs" />
+    <Compile Include="ResolutionProver.cs" />
+    <Compile Include="TranslateSyntax.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

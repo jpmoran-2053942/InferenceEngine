@@ -1,4 +1,4 @@
 TELL
-a=(b&c)+(c+b>a);
+b>c>d;
 ASK
 C

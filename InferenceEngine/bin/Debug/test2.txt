@@ -1,4 +1,4 @@
 TELL
-A&(B+C);
+A&(B+C); C=>D
 ASK
-C
+D

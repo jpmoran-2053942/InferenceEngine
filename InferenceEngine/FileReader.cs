@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace InferenceEngine
 {
-    public class FileReader
+    public class FileReader : TranslateSyntax
     {
         private string[] _knowledgeBase;
         private string _query = "";
@@ -55,13 +55,16 @@ namespace InferenceEngine
                 //https://msdn.microsoft.com/en-us/library/57a79xd0(v=vs.110).aspx
                 _knowledgeBase[i] = string.Join("", _knowledgeBase[i].Split(default(string[]), StringSplitOptions.RemoveEmptyEntries));
             }
+            _knowledgeBase = TranslateKB(_knowledgeBase);
 
-            _query = fileArray[3];
+            _query = Translate(fileArray[3]);
 
             //Now have _knowledgeBase as an array of strings with whitespace free strings and the query as a string in _query
 
             foreach (string s in _knowledgeBase)
+            {
                 Console.WriteLine(s);
+            }
             Console.WriteLine("Query: " + _query);
 
             return true;
@@ -80,6 +83,11 @@ namespace InferenceEngine
         public string GetCNF(string file)
         {
             return null;
+        }
+        
+        public string GetQuery()
+        {
+            return _query;
         }
 
         public string[] GetKB()
