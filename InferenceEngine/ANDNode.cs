@@ -33,7 +33,7 @@ namespace InferenceEngine
             }
         }
 
-        public override bool Evaluate(Dictionary<string, bool> model)
+        public override bool Evaluate(List<string> model)
         {
             return _leftChild.Evaluate(model) && _rightChild.Evaluate(model);
         }

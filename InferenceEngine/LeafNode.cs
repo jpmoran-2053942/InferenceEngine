@@ -9,22 +9,54 @@ namespace InferenceEngine
     class LeafNode: Node
     {
         string _value;
+        public static List<string> _allLeafNodes = new List<string>();
 
         public LeafNode(string value)
         {
             _value = value;
-        }
-
-        public override bool Evaluate(Dictionary<string, bool> model)
-        {
-            foreach(KeyValuePair<string, bool> entry in model)
+            bool leafNodeInList = false;
+            if (_allLeafNodes.Count != 0)
             {
-                if(entry.Key == _value)
+                foreach (string s in _allLeafNodes)
                 {
-                    return entry.Value;
+                    if (s == _value)
+                    {
+                        leafNodeInList = true;
+                    }
+                }
+                if (leafNodeInList == false)
+                {
+                    _allLeafNodes.Add(_value);
                 }
             }
-            throw new Exception("Key not found in dictionary");
+            else
+            {
+                _allLeafNodes.Add(_value);
+            }
+        }
+
+        public string Value
+        {
+            get
+            {
+                return _value;
+            }
+        }
+
+        public override bool Evaluate(List<string> model)
+        {
+            bool isTrue = false;
+            if (model != null)
+            {
+                foreach (string s in model)
+                {
+                    if (s == _value)
+                    {
+                        isTrue = true;
+                    }
+                }
+            }
+            return isTrue;
         }
     }
 }

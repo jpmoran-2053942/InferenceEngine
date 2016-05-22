@@ -168,7 +168,7 @@ namespace InferenceEngine
             return returningList;
         }
 
-        public bool EvaluateLogic(string propositionalLogic, Dictionary<string, bool> model)
+        public bool EvaluateLogic(string propositionalLogic, List<string> model)
         {
             List<NodeOrStringInterface> convertedList = ConvertToStringList(propositionalLogic);
             bool result = false; 

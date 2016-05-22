@@ -49,6 +49,7 @@
     <Compile Include="HornClauseStruct.cs" />
     <Compile Include="ResolutionProver.cs" />
     <Compile Include="TranslateSyntax.cs" />
+    <Compile Include="TruthTable.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
