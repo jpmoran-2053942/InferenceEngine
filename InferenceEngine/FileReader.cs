@@ -18,6 +18,7 @@ namespace InferenceEngine
         public bool readFile(string file)
         {
             string fileContent;
+            string[] tempKB;
 
             try
             {
@@ -48,13 +49,22 @@ namespace InferenceEngine
             }
 
             //Split the knowledge base into a list of strings
-            _knowledgeBase = fileArray[1].Split(';');
-            for (int i = 0; i < _knowledgeBase.Length; i++)
+            tempKB = fileArray[1].Split(';');
+            if (tempKB[tempKB.Length - 1].Equals(""))
+                _knowledgeBase = new string[tempKB.Length - 1];
+            else
+                _knowledgeBase = new string[tempKB.Length];
+            for (int i = 0; i < tempKB.Length; i++)
             {
                 //https://msdn.microsoft.com/en-us/library/tabh47cf(v=vs.110).aspx
                 //https://msdn.microsoft.com/en-us/library/57a79xd0(v=vs.110).aspx
-                _knowledgeBase[i] = string.Join("", _knowledgeBase[i].Split(default(string[]), StringSplitOptions.RemoveEmptyEntries));
+                tempKB[i] = string.Join("", tempKB[i].Split(default(string[]), StringSplitOptions.RemoveEmptyEntries));
+                if (tempKB[i] != "")
+                {
+                    _knowledgeBase[i] = tempKB[i];
+                }
             }
+            
             _knowledgeBase = TranslateKB(_knowledgeBase);
 
             _query = Translate(fileArray[3]);
