@@ -18,8 +18,12 @@ namespace InferenceEngine
 
             reader.readFile("testmultibracket.txt");
 
+            HornClauseReader HReader = new HornClauseReader();
+            ForwardChainProver FChain = new ForwardChainProver();
+            Console.WriteLine("Forward Chain: " + FChain.ForwardChainEntails(HReader.GetHornClause(reader.GetKB()), reader.GetQuery()));
+
             Console.WriteLine(CNFConvert.ConvertCNF((reader.GetKB())));
-            Console.WriteLine(rP.Query(CNFConvert.ConvertCNF((reader.GetKB())), reader.GetQuery()));
+            Console.WriteLine("Resoltion Prover: " + rP.Query(CNFConvert.ConvertCNF((reader.GetKB())), reader.GetQuery()));
 
             List<NodeOrStringInterface> stringListKB = CNF.ConvertToStringList(CNFConvert.ConvertCNF((reader.GetKB())));
             NodeOrStringInterface rootNodeKB = CNF.CreateBinaryTree(stringListKB);

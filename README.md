@@ -1,5 +1,17 @@
 # InferenceEngine
 
+Changes in forward-chaining
+ - Adds HornClauseReader, which returns a list of HornClauses from a propositional logic knowledge base
+ - Adds ForwardChainProver, which returns true or false when passed a list of horn clauses and a query
+
+Changes in resolution-method
+ - Updates FileReader to convert to the correct file format
+	- It now calls methods from TranslateSyntax
+ - Added ResolutionProver
+	- Calls methods from ClauseParsing to prove via the resolution method
+ - Updated ConvertToCNF
+	- Calls shared methods from ClauseParsing now
+
 Changes in cnf-convert
  - Added a class to convert propositional logic to CNF
  - The function takes a knowledge base and converts it to a CNF sentence

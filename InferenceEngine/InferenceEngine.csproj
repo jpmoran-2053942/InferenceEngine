@@ -37,6 +37,8 @@
     <Compile Include="ClauseParsing.cs" />
     <Compile Include="ConjunctiveNormalForm.cs" />
     <Compile Include="ConvertToCNF.cs" />
+    <Compile Include="ForwardChainProver.cs" />
+    <Compile Include="HornClauseReader.cs" />
     <Compile Include="LeafNode.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="HoldsString.cs" />
