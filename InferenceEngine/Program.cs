@@ -16,7 +16,7 @@ namespace InferenceEngine
             ResolutionProver rP = new ResolutionProver();
             TruthTable tt = new TruthTable();
 
-            reader.readFile("testresolution.txt");
+            reader.readFile("testmultibracket.txt");
 
             Console.WriteLine(CNFConvert.ConvertCNF((reader.GetKB())));
             Console.WriteLine(rP.Query(CNFConvert.ConvertCNF((reader.GetKB())), reader.GetQuery()));
@@ -24,7 +24,7 @@ namespace InferenceEngine
             List<NodeOrStringInterface> stringListKB = CNF.ConvertToStringList(CNFConvert.ConvertCNF((reader.GetKB())));
             NodeOrStringInterface rootNodeKB = CNF.CreateBinaryTree(stringListKB);
             NodeOrStringInterface rootNodeQuery = new LeafNode(reader.GetQuery());
-            Console.WriteLine(tt.TruthTableEntails(rootNodeKB, rootNodeQuery));
+            Console.WriteLine("\nTruth table solution: " + tt.TruthTableEntails(rootNodeKB, rootNodeQuery));
 
 
             /*List<NodeOrStringInterface> convertedStringList = CNF.ConvertToStringList(CNFConvert.ConvertCNF(reader.GetKB()));
