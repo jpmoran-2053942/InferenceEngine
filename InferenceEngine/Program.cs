@@ -15,8 +15,9 @@ namespace InferenceEngine
             ConvertToCNF CNFConvert = new ConvertToCNF();
             ResolutionProver rP = new ResolutionProver();
             TruthTable tt = new TruthTable();
+            BackwardChainingProver bCP = new BackwardChainingProver();
 
-            reader.readFile("testmultibracket.txt");
+            reader.readFile("test1.txt");
 
             HornClauseReader HReader = new HornClauseReader();
             ForwardChainProver FChain = new ForwardChainProver();
@@ -28,8 +29,9 @@ namespace InferenceEngine
             List<NodeOrStringInterface> stringListKB = CNF.ConvertToStringList(CNFConvert.ConvertCNF((reader.GetKB())));
             NodeOrStringInterface rootNodeKB = CNF.CreateBinaryTree(stringListKB);
             NodeOrStringInterface rootNodeQuery = new LeafNode(reader.GetQuery());
-            Console.WriteLine("\nTruth table solution: " + tt.TruthTableEntails(rootNodeKB, rootNodeQuery));
+            Console.WriteLine("Truth table solution: " + tt.TruthTableEntails(rootNodeKB, rootNodeQuery));
 
+            Console.WriteLine("Backward Chain: "+ (bCP.BackwardChainCheck(HReader.GetHornClause(reader.GetKB()), reader.GetQuery())));
 
             /*List<NodeOrStringInterface> convertedStringList = CNF.ConvertToStringList(CNFConvert.ConvertCNF(reader.GetKB()));
             NodeOrStringInterface test = CNF.CreateBinaryTree(convertedStringList);*/

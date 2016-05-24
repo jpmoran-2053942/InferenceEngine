@@ -20,14 +20,17 @@ namespace InferenceEngine
 
         public bool TruthTableCheckAll(NodeOrStringInterface rootNodeKB, NodeOrStringInterface rootNodeQuery, List<string> symbols, List<string> model)
         {
-            if(symbols.Count == 0)
+            //no symbols left means that every symbol has a value therefore we have a complete line of the truth table
+            if (symbols.Count == 0)
             {
                 if(rootNodeKB.Evaluate(model))
                 {
+                    //if knowldege base holds true and the model holds true then the knowledge base entails the model
                     return rootNodeQuery.Evaluate(model);
                 }
                 else
                 {
+                    //if knowledge base is false, it will entail any query
                     return true;
                 }
             }

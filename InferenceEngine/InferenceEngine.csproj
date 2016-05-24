@@ -34,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ANDNode.cs" />
+    <Compile Include="BackwardChainingProver.cs" />
     <Compile Include="ClauseParsing.cs" />
     <Compile Include="ConjunctiveNormalForm.cs" />
     <Compile Include="ConvertToCNF.cs" />
