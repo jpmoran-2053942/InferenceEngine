@@ -8,8 +8,19 @@ namespace InferenceEngine
 {
     class TruthTable
     {
+        private int _numberOfOnesInTruthTable;
+
         public TruthTable()
         {
+            _numberOfOnesInTruthTable = 0;
+        }
+
+        public int NumberOfOnesInTruthTable
+        {
+            get
+            {
+                return _numberOfOnesInTruthTable;
+            }
         }
 
         public bool TruthTableEntails(NodeOrStringInterface rootNodeKB, NodeOrStringInterface rootNodeQuery)
@@ -26,6 +37,7 @@ namespace InferenceEngine
                 if(rootNodeKB.Evaluate(model))
                 {
                     //if knowldege base holds true and the model holds true then the knowledge base entails the model
+                    _numberOfOnesInTruthTable++;
                     return rootNodeQuery.Evaluate(model);
                 }
                 else

@@ -16,25 +16,62 @@ namespace InferenceEngine
             ResolutionProver rP = new ResolutionProver();
             TruthTable tt = new TruthTable();
             BackwardChainingProver bCP = new BackwardChainingProver();
+            string method = "";
 
-            reader.readFile("test1.txt");
+            try
+            {
+                if (args.Length != 2)
+                {
+                    throw new Exception("Invalid number of arguments.");
+                }
 
-            HornClauseReader HReader = new HornClauseReader();
-            ForwardChainProver FChain = new ForwardChainProver();
-            Console.WriteLine("Forward Chain: " + FChain.ForwardChainEntails(HReader.GetHornClause(reader.GetKB()), reader.GetQuery()));
+                method = args[0];
+                reader.readFile(args[1]);
 
-            Console.WriteLine(CNFConvert.ConvertCNF((reader.GetKB())));
-            Console.WriteLine("Resoltion Prover: " + rP.Query(CNFConvert.ConvertCNF((reader.GetKB())), reader.GetQuery()));
+                if(method == "TT")
+                {
+                    List<NodeOrStringInterface> stringListKB = CNF.ConvertToStringList(CNFConvert.ConvertCNF((reader.GetKB())));
+                    NodeOrStringInterface rootNodeKB = CNF.CreateBinaryTree(stringListKB);
+                    NodeOrStringInterface rootNodeQuery = new LeafNode(reader.GetQuery());
+                    if(tt.TruthTableEntails(rootNodeKB, rootNodeQuery))
+                    {
+                        Console.WriteLine("YES: " + tt.NumberOfOnesInTruthTable);
+                    }
+                    else
+                    {
+                        Console.WriteLine("NO: " + tt.NumberOfOnesInTruthTable);
+                    }
+                }
+                else if(method == "BC")
+                {
+                    HornClauseReader BCHReader = new HornClauseReader();
+                    if (bCP.BackwardChainCheck(BCHReader.GetHornClause(reader.GetKB()), reader.GetQuery()))
+                    {
+                        Console.Write("YES: ");
+                        foreach (string s in bCP.ProvenPremises)
+                        {
+                            Console.Write(s + " ");
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Unrecognised method");
+                }
 
-            List<NodeOrStringInterface> stringListKB = CNF.ConvertToStringList(CNFConvert.ConvertCNF((reader.GetKB())));
-            NodeOrStringInterface rootNodeKB = CNF.CreateBinaryTree(stringListKB);
-            NodeOrStringInterface rootNodeQuery = new LeafNode(reader.GetQuery());
-            Console.WriteLine("Truth table solution: " + tt.TruthTableEntails(rootNodeKB, rootNodeQuery));
+                /*HornClauseReader HReader = new HornClauseReader();
+                ForwardChainProver FChain = new ForwardChainProver();
+                Console.WriteLine("Forward Chain: " + FChain.ForwardChainEntails(HReader.GetHornClause(reader.GetKB()), reader.GetQuery()));
 
-            Console.WriteLine("Backward Chain: "+ (bCP.BackwardChainCheck(HReader.GetHornClause(reader.GetKB()), reader.GetQuery())));
+                Console.WriteLine(CNFConvert.ConvertCNF((reader.GetKB())));
+                Console.WriteLine("Resolution Prover: " + rP.Query(CNFConvert.ConvertCNF((reader.GetKB())), reader.GetQuery()));*/
 
-            /*List<NodeOrStringInterface> convertedStringList = CNF.ConvertToStringList(CNFConvert.ConvertCNF(reader.GetKB()));
-            NodeOrStringInterface test = CNF.CreateBinaryTree(convertedStringList);*/
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
             Console.ReadLine();
         }
