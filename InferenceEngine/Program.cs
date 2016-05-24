@@ -11,11 +11,7 @@ namespace InferenceEngine
         public static void Main(string[] args)
         {
             FileReader reader = new FileReader();
-            ConjunctiveNormalForm CNF = new ConjunctiveNormalForm();
             ConvertToCNF CNFConvert = new ConvertToCNF();
-            ResolutionProver rP = new ResolutionProver();
-            TruthTable tt = new TruthTable();
-            BackwardChainingProver bCP = new BackwardChainingProver();
             string method = "";
 
             try
@@ -28,52 +24,91 @@ namespace InferenceEngine
                 method = args[0];
                 reader.readFile(args[1]);
 
-                if(method == "TT")
+                switch (method)
                 {
-                    List<NodeOrStringInterface> stringListKB = CNF.ConvertToStringList(CNFConvert.ConvertCNF((reader.GetKB())));
-                    NodeOrStringInterface rootNodeKB = CNF.CreateBinaryTree(stringListKB);
-                    NodeOrStringInterface rootNodeQuery = new LeafNode(reader.GetQuery());
-                    if(tt.TruthTableEntails(rootNodeKB, rootNodeQuery))
-                    {
-                        Console.WriteLine("YES: " + tt.NumberOfOnesInTruthTable);
-                    }
-                    else
-                    {
-                        Console.WriteLine("NO: " + tt.NumberOfOnesInTruthTable);
-                    }
-                }
-                else if(method == "BC")
-                {
-                    HornClauseReader BCHReader = new HornClauseReader();
-                    if (bCP.BackwardChainCheck(BCHReader.GetHornClause(reader.GetKB()), reader.GetQuery()))
-                    {
-                        Console.Write("YES: ");
+                    case "TT":
+                        TruthTable tt = new TruthTable();
+                        ConjunctiveNormalForm CNF = new ConjunctiveNormalForm();
+                        List<NodeOrStringInterface> stringListKB = CNF.ConvertToStringList(CNFConvert.ConvertCNF((reader.GetKB())));
+                        NodeOrStringInterface rootNodeKB = CNF.CreateBinaryTree(stringListKB);
+                        NodeOrStringInterface rootNodeQuery = new LeafNode(reader.GetQuery());
+                        if(tt.TruthTableEntails(rootNodeKB, rootNodeQuery))
+                        {
+                            Console.WriteLine("YES: " + tt.NumberOfOnesInTruthTable);
+                        }
+                        else
+                        {
+                            Console.WriteLine("NO: " + tt.NumberOfOnesInTruthTable);
+                        }
+                        break;
+                    case "BC":
+                        BackwardChainingProver bCP = new BackwardChainingProver();
+                        HornClauseReader BCHReader = new HornClauseReader();
+                        if (bCP.BackwardChainCheck(BCHReader.GetHornClause(reader.GetKB()), reader.GetQuery()))
+                        {
+                            Console.Write("YES: ");
+                        }
+                        else
+                        {
+                            Console.Write("NO: ");
+                        }
                         foreach (string s in bCP.ProvenPremises)
                         {
                             Console.Write(s + " ");
                         }
-                    }
+                        break;
+                    case "FC":
+                        ForwardChainProver fCP = new ForwardChainProver();
+                        HornClauseReader FCHReader = new HornClauseReader();
+                        if (fCP.ForwardChainEntails(FCHReader.GetHornClause(reader.GetKB()), reader.GetQuery()))
+                        {
+                            Console.Write("YES: ");
+                        }
+                        else
+                        {
+                            Console.Write("NO: ");
+                        }
+                        foreach (string s in fCP.GetProvenPremise())
+                        {
+                            Console.Write(s + " ");
+                        }
+                        break;
+                    case "R":
+                        ResolutionProver rP = new ResolutionProver();
+                        if (rP.Query(CNFConvert.ConvertCNF((reader.GetKB())), reader.GetQuery()))
+                        {
+                            Console.Write("YES: ");
+
+                            //Print relevant clauses.
+                            Stack<Resolvant> relevantClauses = new Stack<Resolvant>();
+                            relevantClauses.Push(rP._resolvantChain);
+                            while (relevantClauses.Count > 0)
+                            {
+                                Resolvant current = relevantClauses.Pop();
+                                if (current._parentA != null)
+                                {
+                                    relevantClauses.Push(current._parentA);
+                                    relevantClauses.Push(current._parentB);
+                                }
+                                Console.Write(current._clause + " ");
+                            }
+                        }
+                        else
+                        {
+                            Console.Write("NO");
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("Unrecognised method");
+                        break;
                 }
-                else
-                {
-                    Console.WriteLine("Unrecognised method");
-                }
-
-                /*HornClauseReader HReader = new HornClauseReader();
-                ForwardChainProver FChain = new ForwardChainProver();
-                Console.WriteLine("Forward Chain: " + FChain.ForwardChainEntails(HReader.GetHornClause(reader.GetKB()), reader.GetQuery()));
-
-                Console.WriteLine(CNFConvert.ConvertCNF((reader.GetKB())));
-                Console.WriteLine("Resolution Prover: " + rP.Query(CNFConvert.ConvertCNF((reader.GetKB())), reader.GetQuery()));*/
-
             }
 
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-
-            Console.ReadLine();
         }
+
     }
 }

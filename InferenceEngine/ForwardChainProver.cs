@@ -8,8 +8,12 @@ namespace InferenceEngine
 {
     class ForwardChainProver
     {
+        private List<string> _provenPremise = new List<string>();
+
         public bool ForwardChainEntails(List<HornClause> hornClauses, string query)
         {
+            _provenPremise.Clear();
+
             if (hornClauses == null)
                 return false;
 
@@ -51,6 +55,7 @@ namespace InferenceEngine
                     if (inferred[p] == false)
                     {
                         inferred[p] = true;
+                        _provenPremise.Add(p);
 
                         //Only do these steps if we haven't already inferred the symbol
                         //Find other clauses that contain the symbol in the premise that are not truth-clauses
@@ -71,6 +76,11 @@ namespace InferenceEngine
 
             //If we run out of agenda, we can't infer the query
             return false;
+        }
+
+        public List<string> GetProvenPremise()
+        {
+            return _provenPremise;
         }
     }
 }
