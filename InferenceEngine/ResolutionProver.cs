@@ -8,16 +8,23 @@ namespace InferenceEngine
 {
     class ResolutionProver : ClauseParsing
     {
+        public Resolvant _resolvantChain = null;
+
         public bool Query(string KB, string query)
         {
+            _resolvantChain = null;
+
             ConvertToCNF cnf = new ConvertToCNF();
             string fullSentence = KB + "&-(" + query + ")";
             string CNF = cnf.ConvertCNF(fullSentence);
             string[] clausesArray = GetListOfDisjunctions(CNF);
-            List<string> clauses = new List<string>();
-            List<string> fullResolvents = new List<string>();
+            List<Resolvant> clauses = new List<Resolvant>();
+            List<Resolvant> fullResolvents = new List<Resolvant>();
 
-            clauses.AddRange(clausesArray);
+            foreach (string s in clausesArray)
+            {
+                clauses.Add(new Resolvant(null, null, s));
+            }
 
             while (true)
             {
@@ -25,14 +32,18 @@ namespace InferenceEngine
                 {
                     for (int j = 0; j < clauses.Count; j++)
                     {
-                        List<string> subResolvents = new List<string>();
+                        List<Resolvant> subResolvents = new List<Resolvant>();
                         if (i != j)
                         {
-                            subResolvents.Add(Resolve(clauses[i], clauses[j]));
+                            Resolvant newResolvant = Resolve(clauses[i], clauses[j]);
+                            subResolvents.Add(newResolvant);
 
                             //If a resovlent is empty, then the query is true.
-                            if (subResolvents.Contains(""))
+                            if (newResolvant._clause.Equals(""))
+                            {
+                                _resolvantChain = newResolvant;
                                 return true;
+                            }
 
                             Union(fullResolvents, subResolvents);
                         }
@@ -47,9 +58,9 @@ namespace InferenceEngine
             }
         }
 
-        private string Resolve(string clauseA, string clauseB)
+        private Resolvant Resolve(Resolvant clauseA, Resolvant clauseB)
         {
-            string newClause = clauseA + "+" + clauseB;
+            string newClause = clauseA._clause + "+" + clauseB._clause;
 
             //For each sub string, list the positive and negative literals
             List<string> containsTrue = new List<string>();
@@ -148,35 +159,43 @@ namespace InferenceEngine
             containsTrue.Clear();
             containsFalse.Clear();
 
-            return newClause;
+            return new Resolvant(clauseA, clauseB, newClause);
         }
 
-        private bool ContainsAll(List<string> A, List<string> B)
+        private bool ContainsAll(List<Resolvant> A, List<Resolvant> B)
         {
             if (A.Count == 0)
                 return false;
 
-            foreach(string sB in B)
+            foreach(Resolvant sB in B)
             {
-                bool contains = false;
-                foreach (string sA in A)
-                {
-                    if (sA.Equals(sB))
-                        contains = true;
-                }
-
-                if (!contains)
+                if (!Contains(A, sB))
                     return false;
             }
 
             return true;
         }
 
-        private List<string> Union(List<string> A, List<string> B)
+        private bool Contains(List<Resolvant> A, Resolvant B)
         {
-            foreach (string s in B)
-                if (!A.Contains(s))
-                    A.Add(s);
+            foreach (Resolvant sA in A)
+            {
+                if (sA._clause.Equals(B._clause))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private List<Resolvant> Union(List<Resolvant> A, List<Resolvant> B)
+        {
+            foreach (Resolvant sB in B)
+            {
+                if (!Contains(A, sB))
+                    A.Add(sB);
+            }
 
             return A;
 

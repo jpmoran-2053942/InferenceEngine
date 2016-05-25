@@ -71,12 +71,6 @@ namespace InferenceEngine
 
             //Now have _knowledgeBase as an array of strings with whitespace free strings and the query as a string in _query
 
-            foreach (string s in _knowledgeBase)
-            {
-                Console.WriteLine(s);
-            }
-            Console.WriteLine("Query: " + _query);
-
             return true;
         }
 

@@ -54,6 +54,7 @@
     <Compile Include="ResolutionProver.cs" />
     <Compile Include="TranslateSyntax.cs" />
     <Compile Include="TruthTable.cs" />
+    <Compile Include="Resolvant.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
