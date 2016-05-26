@@ -16,65 +16,106 @@ namespace InferenceEngine
 
             try
             {
+                //Ensure the arugments are valid.
                 if (args.Length != 2)
                 {
                     throw new Exception("Invalid number of arguments.");
                 }
-
                 method = args[0];
-                reader.readFile(args[1]);
 
+                //Read the file. If there is an error, abort operation.
+                if (!reader.readFile(args[1]))
+                    return;
+
+                //Determine which method to use
                 switch (method)
                 {
                     case "TT":
+                        //Truth table method
                         TruthTable tt = new TruthTable();
                         ConjunctiveNormalForm CNF = new ConjunctiveNormalForm();
+
+                        //Convert the knowledge base to CNF and put it in a list of strings
                         List<NodeOrStringInterface> stringListKB = CNF.ConvertToStringList(CNFConvert.ConvertCNF((reader.GetKB())));
+
+                        //Create a binary tree from the string list
                         NodeOrStringInterface rootNodeKB = CNF.CreateBinaryTree(stringListKB);
+
+                        //Evaluate the binary tree with the query
                         NodeOrStringInterface rootNodeQuery = new LeafNode(reader.GetQuery());
+
+                        //Report the results including the number of true models
                         if(tt.TruthTableEntails(rootNodeKB, rootNodeQuery))
                         {
-                            Console.WriteLine("YES: " + tt.NumberOfOnesInTruthTable);
+                            Console.Write("YES: " + tt.NumberOfOnesInTruthTable);
                         }
                         else
                         {
-                            Console.WriteLine("NO: " + tt.NumberOfOnesInTruthTable);
+                            Console.Write("NO: " + tt.NumberOfOnesInTruthTable);
                         }
                         break;
+
                     case "BC":
-                        BackwardChainingProver bCP = new BackwardChainingProver();
+                        //Backward chain method
+                        AlternateBackChain bCP = new AlternateBackChain();
                         HornClauseReader BCHReader = new HornClauseReader();
-                        if (bCP.BackwardChainCheck(BCHReader.GetHornClause(reader.GetKB()), reader.GetQuery()))
+
+                        //Convert the knowledge base into horn clause form
+                        List<HornClause> hornClausesBC = BCHReader.GetHornClause(reader.GetKB());
+
+                        //If the knowledge base can be converted to horn form
+                        if (hornClausesBC != null)
                         {
-                            Console.Write("YES: ");
-                        }
-                        else
-                        {
-                            Console.Write("NO: ");
-                        }
-                        foreach (string s in bCP.ProvenPremises)
-                        {
-                            Console.Write(s + " ");
+                            //Use backward chaining to determine the query
+                            if (bCP.BCProver(hornClausesBC, reader.GetQuery()))
+                            {
+                                Console.Write("YES: ");
+                            }
+                            else
+                            {
+                                Console.Write("NO: ");
+                            }
+                            //List the premises proven
+                            foreach (string s in bCP._provenPremises)
+                            {
+                                Console.Write(s + " ");
+                            }
                         }
                         break;
+
                     case "FC":
+                        //Forward chain method
                         ForwardChainProver fCP = new ForwardChainProver();
                         HornClauseReader FCHReader = new HornClauseReader();
-                        if (fCP.ForwardChainEntails(FCHReader.GetHornClause(reader.GetKB()), reader.GetQuery()))
+
+                        //Convert the knowledge base into horn clause form
+                        List<HornClause> hornClausesFC = FCHReader.GetHornClause(reader.GetKB());
+
+                        //If the knowledge base can be converted to horn form
+                        if (hornClausesFC != null)
                         {
-                            Console.Write("YES: ");
-                        }
-                        else
-                        {
-                            Console.Write("NO: ");
-                        }
-                        foreach (string s in fCP.GetProvenPremise())
-                        {
-                            Console.Write(s + " ");
+                            //Use backward chaining to determine the query
+                            if (fCP.ForwardChainEntails(FCHReader.GetHornClause(reader.GetKB()), reader.GetQuery()))
+                            {
+                                Console.Write("YES: ");
+                            }
+                            else
+                            {
+                                Console.Write("NO: ");
+                            }
+                            //List the premises proven
+                            foreach (string s in fCP.GetProvenPremise())
+                            {
+                                Console.Write(s + " ");
+                            }
                         }
                         break;
+
                     case "R":
+                        //Resolution algorithm
                         ResolutionProver rP = new ResolutionProver();
+
+                        //Convert the knowldege base to CNF and query it using resolution algorithm
                         if (rP.Query(CNFConvert.ConvertCNF((reader.GetKB())), reader.GetQuery()))
                         {
                             Console.Write("YES: ");
@@ -98,16 +139,20 @@ namespace InferenceEngine
                             Console.Write("NO");
                         }
                         break;
+
                     default:
-                        Console.WriteLine("Unrecognised method");
+                        Console.Write("Unrecognised method");
                         break;
                 }
             }
 
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.Write(e.Message);
             }
+
+            Console.Write("\n");
+
         }
 
     }

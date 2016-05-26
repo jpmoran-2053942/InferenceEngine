@@ -4,23 +4,43 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Contains methods to run the Resolution Algorithm to determine inference. The
+/// implementation has an error that is common to all applications for the
+/// resolution algorithm: it will incorrectly infer properties if any of the
+/// clauses create an empty clause.
+/// </summary>
 namespace InferenceEngine
 {
     class ResolutionProver : ClauseParsing
     {
+        //Stores the list of resolvents used to determine the empty clause.
+        //Use the parent property to determine the chain.
         public Resolvant _resolvantChain = null;
 
+        /// <summary>
+        /// Uses the resolution algorithm to query the knowledge base.
+        /// </summary>
+        /// <param name="KB">The knowledge base as a string. Must be a single sentence.</param>
+        /// <param name="query">The query as a string.</param>
         public bool Query(string KB, string query)
         {
+            //Reset the chain from previous iterations.
             _resolvantChain = null;
 
             ConvertToCNF cnf = new ConvertToCNF();
-            string fullSentence = KB + "&-(" + query + ")";
-            string CNF = cnf.ConvertCNF(fullSentence);
-            string[] clausesArray = GetListOfDisjunctions(CNF);
             List<Resolvant> clauses = new List<Resolvant>();
             List<Resolvant> fullResolvents = new List<Resolvant>();
 
+            //Construct the full sentence used in resolution algorithm
+            string fullSentence = KB + "&-(" + query + ")";
+
+            //Ensure the sentence is in CNF
+            string CNF = cnf.ConvertCNF(fullSentence);
+
+            //List the sentence as a list of disjunctions and add them to the initial
+            //list of clauses.
+            string[] clausesArray = GetListOfDisjunctions(CNF);
             foreach (string s in clausesArray)
             {
                 clauses.Add(new Resolvant(null, null, s));
@@ -28,6 +48,7 @@ namespace InferenceEngine
 
             while (true)
             {
+                //Resolve every pair of clauses.
                 for (int i = 0; i < clauses.Count; i++)
                 {
                     for (int j = 0; j < clauses.Count; j++)
@@ -38,31 +59,44 @@ namespace InferenceEngine
                             Resolvant newResolvant = Resolve(clauses[i], clauses[j]);
                             subResolvents.Add(newResolvant);
 
-                            //If a resovlent is empty, then the query is true.
+                            //If a resovlent is empty, then the query is true. Reductio ad Absurdum.
                             if (newResolvant._clause.Equals(""))
                             {
                                 _resolvantChain = newResolvant;
                                 return true;
                             }
 
+                            //Add the new resolvent to the list of full resolvents.
                             Union(fullResolvents, subResolvents);
                         }
 
                     }
                 }
 
+                //If no new resolvents were made, the query cannot be inferred. We have done all we can and
+                //have not proven the query.
                 if (ContainsAll(clauses, fullResolvents))
                     return false;
 
+                //Add the new clauses to the list of clauses.
                 Union(clauses, fullResolvents);
             }
+
         }
 
+        /// <summary>
+        /// Resolve two clauses clauseA and clauseB. It returns the resolvent
+        /// in standard CNF. Can return the empty clause.
+        /// </summary>
+        /// <param name="clauseA">Clause a.</param>
+        /// <param name="clauseB">Clause b.</param>
+        /// <returns>The resolvent with parents set as clauseA and clauseB.</returns>
         private Resolvant Resolve(Resolvant clauseA, Resolvant clauseB)
         {
+            //Create the new clause by conjoining the parent clauses.
             string newClause = clauseA._clause + "+" + clauseB._clause;
 
-            //For each sub string, list the positive and negative literals
+            //List the positive and negative literals in the new clause
             List<string> containsTrue = new List<string>();
             List<string> containsFalse = new List<string>();
             string tempString = "";
@@ -123,7 +157,7 @@ namespace InferenceEngine
 
             tempString = "";
 
-            //Determine if a sub string is redundant ie contains both the positive and negative of a literal
+            //Remove literals where both the positive and negative form appear, as they are redundant.
             for (int i = 0; i < containsTrue.Count; i++)
             {
                 if (containsFalse.Contains(containsTrue[i]))
@@ -136,7 +170,7 @@ namespace InferenceEngine
 
             newClause = "";
 
-            //If it is not redundant, write a new sentence containing only non-redundant literals
+            //Write a new sentence containing only non-redundant literals
             //Since each literal is only listed once, it also removes redundancies internal to substrings
             //eg (a+b+b) becomes (a+b)
             foreach (string sT in containsTrue)
@@ -159,9 +193,16 @@ namespace InferenceEngine
             containsTrue.Clear();
             containsFalse.Clear();
 
+            //Return a resolvent with parents as clauseA and clauseB, and the clause as what was determined.
             return new Resolvant(clauseA, clauseB, newClause);
         }
 
+        /// <summary>
+        /// Determines whether all of B is contained in A.
+        /// </summary>
+        /// <returns><c>true</c>, if all of B is in A, <c>false</c> otherwise.</returns>
+        /// <param name="A">A the container list.</param>
+        /// <param name="B">B the list to check.</param>
         private bool ContainsAll(List<Resolvant> A, List<Resolvant> B)
         {
             if (A.Count == 0)
@@ -169,6 +210,7 @@ namespace InferenceEngine
 
             foreach(Resolvant sB in B)
             {
+                //If anything in B is not in A, return false
                 if (!Contains(A, sB))
                     return false;
             }
@@ -176,8 +218,15 @@ namespace InferenceEngine
             return true;
         }
 
+        /// <summary>
+        /// Determines whether a Resolvent in contained in the List A.
+        /// </summary>
+        /// <returns>True if B is in A, false otherwise</returns>
+        /// <param name="A">A the list to check.</param>
+        /// <param name="B">B the resolvent to test.</param>
         private bool Contains(List<Resolvant> A, Resolvant B)
         {
+            //Look through the list A and try to find resolvent that contain B's clause.
             foreach (Resolvant sA in A)
             {
                 if (sA._clause.Equals(B._clause))
@@ -189,8 +238,15 @@ namespace InferenceEngine
             return false;
         }
 
+        /// <summary>
+        /// Combines two lists of Resolvents in a union. That is, combines the lists
+        /// such that there are no duplicates in the resulting list.
+        /// </summary>
+        /// <param name="A">A the first list.</param>
+        /// <param name="B">B the second list.</param>
         private List<Resolvant> Union(List<Resolvant> A, List<Resolvant> B)
         {
+            //Add each resolvent in B that is not contained in A.
             foreach (Resolvant sB in B)
             {
                 if (!Contains(A, sB))

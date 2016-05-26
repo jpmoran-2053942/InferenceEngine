@@ -36,7 +36,7 @@ namespace InferenceEngine
                         }
                         else
                         {
-                            return false;
+                            provenFalse = true;
                         }
                     }
                     if (!provenFalse)
