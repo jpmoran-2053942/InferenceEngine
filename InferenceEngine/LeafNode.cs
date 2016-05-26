@@ -55,12 +55,14 @@ namespace InferenceEngine
         /// Evaluates whether the leaf node is true or false for a given model
         /// </summary>
         /// <param name="model">The model used to evaluate the node</param>
-        /// <returns></returns>
+        /// <returns>true if the node holds true for the given model, false otherwise</returns>
         public override bool Evaluate(List<string> model)
         {
             bool isTrue = false;
             if (model != null)
             {
+                //the model is a list of all literals that are true in the model
+                //therefore, if the value of the node is in the model it is true
                 foreach (string s in model)
                 {
                     if (s == _value)
