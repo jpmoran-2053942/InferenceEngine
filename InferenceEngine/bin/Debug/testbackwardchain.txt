@@ -1,0 +1,4 @@
+TELL
+B=>A; C>B; B>C; D>C; D
+ASK
+A

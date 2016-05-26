@@ -55,6 +55,7 @@
     <Compile Include="TranslateSyntax.cs" />
     <Compile Include="TruthTable.cs" />
     <Compile Include="Resolvant.cs" />
+    <Compile Include="AlternateBackChain.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

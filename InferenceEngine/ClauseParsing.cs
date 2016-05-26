@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Contains methods to simplify and interact with clauses. Includes methods that 
+/// </summary>
 namespace InferenceEngine
 {
     //List of connectives in order of precedence.
@@ -20,12 +23,21 @@ namespace InferenceEngine
 
     class ClauseParsing
     {
+        /// <summary>
+        /// Takes a CNF sentence as a string and rewrites it in a standard form. This involves,
+        /// for each conjunction, removing repeated symbols and ordering them by having true
+        /// symbols first, then by alphabetical order. It also removes conjunctions that include
+        /// both the positive and negative of a symbol. It returns the new list of standard conjunctions
+        /// as a string.
+        /// </summary>
+        /// <param name="sentence">A propositional logic sentence in CNF.</param>
+        /// <returns>New sentence in standard form.</returns>
         protected string RemoveRedundancies(string sentence)
         {
             string tempString = "", convertedSentence = "";
             List<string> stringList = new List<string>();
 
-            //Split the sentence by &
+            //Split the sentence by & and store the list in stringList
             for (int i = 0; i < sentence.Length; i++)
             {
                 if (sentence[i] == '&')
@@ -46,11 +58,11 @@ namespace InferenceEngine
                 stringList.Add(tempString);
             }
 
-            //For each sub string, list the positive and negative literals
             List<string> containsTrue = new List<string>();
             List<string> containsFalse = new List<string>();
             tempString = "";
 
+            //For each sub string, list the positive and negative literals
             foreach (string s in stringList)
             {
                 for (int i = 0; i < s.Length; i++)
@@ -102,8 +114,7 @@ namespace InferenceEngine
                     }
                 }
                 
-                //Sort the lists in alphabetical order, used to ensure equivilent clauses
-                //are equal.
+                //Sort the lists in alphabetical order, used to ensure equivilent clauses are the same string.
                 containsFalse.Sort();
                 containsTrue.Sort();
 
@@ -146,11 +157,17 @@ namespace InferenceEngine
                         convertedSentence += "&(" + tempString + ")";
                 }
 
+                //If it is redundant, don't write the substring
+
+                //Clear the lists for the next substring to check
                 tempString = "";
                 containsTrue.Clear();
                 containsFalse.Clear();
+                
+                //Test the next substring
             }
 
+            //Converted sentences is the new, standard sentence
             return convertedSentence;
         }
 
@@ -158,13 +175,14 @@ namespace InferenceEngine
         /// Returns the index of the main connective in the sentence.
         /// Returns -1 if the sentence is a literal.
         /// </summary>
-        /// <param name="sentence">A sentence.</param>
-        /// <returns></returns>
+        /// <param name="sentence">A proper logic sentence.</param>
+        /// <returns>-1 if the sentence is a literal, otherwise the index of the main connective</returns>
         protected int GetMainConnective(string sentence)
         {
             int index = 0, bracketNesting = 0, indexOfMain = -1, maxAllowNesting = 0, highestNesting = 0;
             Connectives mainConnective = Connectives.Nil;
 
+            //Search through the string for a logic operator
             do
             {
                 index = 0;
@@ -172,6 +190,8 @@ namespace InferenceEngine
                 {
                     switch (c)
                     {
+                        //If a bracket is found and no other operator is found, look inside this bracket
+                        //by setting the next loop to ignore the first encountered bracket
                         case '(':
                             bracketNesting++;
                             if (bracketNesting > highestNesting)
@@ -213,6 +233,11 @@ namespace InferenceEngine
             return indexOfMain;
         }
 
+        /// <summary>
+        /// Determines the precedence of an operator.
+        /// </summary>
+        /// <param name="c">The character to test.</param>
+        /// <returns>The equivalent "Connectives" enumeration</returns>
         protected Connectives getConnectivePrecedence(char c)
         {
             switch (c)
@@ -232,10 +257,19 @@ namespace InferenceEngine
             return Connectives.Literal;
         }
 
+        /// <summary>
+        /// Takes a sentence and removes any unpaired brackets.
+        /// </summary>
+        /// <param name="sentence">A logic sentence.</param>
+        /// <returns>The new sentence with unpaired brackets removed.</returns>
         protected string RemoveUnpairedBrackets(string sentence)
         {
             int bracketNesting = 0;
 
+            //Look through the sentence and count the number of left and right brackets.
+            //The resulting bracketNesting is positive if there are more left than right,
+            //or negative if more right than left. It is zero if there are no outstanding
+            //brackets.
             foreach (char c in sentence)
             {
                 switch (c)
@@ -257,6 +291,8 @@ namespace InferenceEngine
             if (bracketNesting == 0)
                 return sentence;
 
+            //More left than right
+            //Remove left brackets from the left side of the sentence
             if (bracketNesting > 0)
             {
                 for (int i = 0; i < sentence.Length; i++)
@@ -268,6 +304,8 @@ namespace InferenceEngine
                 }
             }
 
+            //More right than left
+            //Remove right brackets from the right side of the sentence
             if (bracketNesting < 0)
             {
                 for (int i = sentence.Length - 1; i >= 0; i--)
@@ -287,8 +325,8 @@ namespace InferenceEngine
         /// It will split the string with & as delimiator and remove
         /// any gratuitous brackets from the substrings.
         /// </summary>
-        /// <param name="sentence"></param>
-        /// <returns></returns>
+        /// <param name="sentence">A sentence in CNF.</param>
+        /// <returns>List of disjunctions in the sentence</returns>
         protected string[] GetListOfDisjunctions(string sentence)
         {
             string[] list = sentence.Split('&');
@@ -306,6 +344,11 @@ namespace InferenceEngine
             return bracketsRemoved;
         }
 
+        /// <summary>
+        /// Converts a char list to a string.
+        /// </summary>
+        /// <param name="charList">A list of characters</param>
+        /// <returns>The concatenated string</returns>
         protected string CharListToString(List<char> charList)
         {
             string final = "";

@@ -1,7 +1,0 @@
-F:\2016s1\COS30019\Assignment2\Program\Git\InferenceEngine\InferenceEngine\bin\Debug\InferenceEngine.exe
-F:\2016s1\COS30019\Assignment2\Program\Git\InferenceEngine\InferenceEngine\bin\Debug\InferenceEngine.pdb
-F:\2016s1\COS30019\Assignment2\Program\Git\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.csprojResolveAssemblyReference.cache
-F:\2016s1\COS30019\Assignment2\Program\Git\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.exe
-F:\2016s1\COS30019\Assignment2\Program\Git\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.pdb
-D:\Uni\2016 S1\Introduction to Artificial Intelligence\Assignments\Assignment 2\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.exe
-D:\Uni\2016 S1\Introduction to Artificial Intelligence\Assignments\Assignment 2\InferenceEngine\InferenceEngine\obj\x86\Debug\InferenceEngine.pdb
