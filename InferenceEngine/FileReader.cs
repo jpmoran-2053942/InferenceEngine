@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-//http://stackoverflow.com/questions/17568067/how-to-parse-a-boolean-expression-and-load-it-into-a-class
+/// <summary>
+/// 
+/// </summary>
 
 namespace InferenceEngine
 {
@@ -14,12 +16,18 @@ namespace InferenceEngine
         {
         }
 
-        //Set to private after debugging
+        /// <summary>
+        /// Reads the indicated file. File must have TELL as the first line, ASK as the third line, the knowledge base
+        /// as the second line (delimiated by semicolons), and the query as the final line.
+        /// </summary>
+        /// <param name="file">The name of the file to read.</param>
+        /// <returns>Returns false if the file cannot be read or the format is incorrect, true otherwise.</returns>
         public bool readFile(string file)
         {
             string fileContent;
             string[] tempKB;
 
+            //Attempt to read the file.
             try
             {
 
@@ -56,8 +64,6 @@ namespace InferenceEngine
                 _knowledgeBase = new string[tempKB.Length];
             for (int i = 0; i < tempKB.Length; i++)
             {
-                //https://msdn.microsoft.com/en-us/library/tabh47cf(v=vs.110).aspx
-                //https://msdn.microsoft.com/en-us/library/57a79xd0(v=vs.110).aspx
                 tempKB[i] = string.Join("", tempKB[i].Split(default(string[]), StringSplitOptions.RemoveEmptyEntries));
                 if (tempKB[i] != "")
                 {
@@ -65,59 +71,44 @@ namespace InferenceEngine
                 }
             }
             
+            //Converts the connectives to the expected format for this program.
             _knowledgeBase = TranslateKB(_knowledgeBase);
-
             _query = Translate(fileArray[3]);
 
             //Now have _knowledgeBase as an array of strings with whitespace free strings and the query as a string in _query
-
             return true;
         }
-
-        public HornClause[] GetHornClauseSet(string file)
-        {
-            return null;
-        }
-
-        public string[] GetPropositionalLogicSet(string file)
-        {
-            return null;
-        }
-
-        public string GetCNF(string file)
-        {
-            return null;
-        }
         
+        /// <summary>
+        /// Returns the query. Must run ReadFile first.
+        /// </summary>
+        /// <returns>The query as a string. Null if ReadFile hasn't been run.</returns>
         public string GetQuery()
         {
             return _query;
         }
 
+        /// <summary>
+        /// Returns the knowledge base. Must run ReadFile first.
+        /// </summary>
+        /// <returns>The knowledge base as an array of string. Null if ReadFile hasn't been run.</returns>
         public string[] GetKB()
         {
             return _knowledgeBase;
         }
 
+        /// <summary>
+        /// Returns a particular knowledge base entry. Must run ReadFile first.
+        /// </summary>
+        /// <param name="num">Index of the entry.</param>
+        /// <returns>The query as a string. Null if ReadFile hasn't been run or if the index is not in the array.</returns>
         public string GetKBEntry(int num)
         {
-            return _knowledgeBase[num];
+            if (num < _knowledgeBase.Length)
+                return _knowledgeBase[num];
+
+            return null;
         }
-
-
-        /// <summary>
-        /// Attempts to read the specified file. Stores the puzzle as an int array. The
-        /// file format is:
-        /// First Line: [mxn]; 
-        /// Second Line: *initial configuration; 
-        /// Third Line: *end state; 
-        /// where m is the column and n is the row
-        /// Use "GetPuzzle" to return the puzzle.
-        /// </summary>
-        /// <returns><c>true</c>, if the file was read successfully, <c>false</c> if the
-        /// file does not exist or there is an issue with the file format.</returns>
-        /// <param name="file">File.</param>
-
 
     }
 }

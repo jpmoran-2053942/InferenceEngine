@@ -1,28 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace InferenceEngine
 {
+    /// <summary>
+    /// This class is used to evaluate propositional logic statements
+    /// </summary>
     class ConjunctiveNormalForm
     {
         char[] _specialCharacters;
 
+        /// <summary>
+        /// Creates a new instance of the Conjunctive Normal Form
+        /// </summary>
         public ConjunctiveNormalForm()
         {
             _specialCharacters = new char[] { '(', ')', '-', '&', '+' };
         }
 
+        /// <summary>
+        /// Creates a binary tree for the purposes of evaluating logic statements
+        /// Each operation and term in the equation becomes its own node
+        /// </summary>
+        /// <param name="convertedStringList">The list of all symbols and operators in the equation</param>
+        /// <returns>Returns the root node of the generated binary tree</returns>
         public NodeOrStringInterface CreateBinaryTree(List<NodeOrStringInterface> convertedStringList)
         {
-            // List<NodeOrStringInterface> convertedStringList = ConvertToStringList(propositionalLogic);
             int leftBracketIndex = 0;
             int rightBracketIndex = 0;
             int numberOfBrackets = 0;
 
-            //check brackets first
+            //check for brackets first
             for (int i = 0; i < convertedStringList.Count; i++)
             {
                 //Find the start of a bracket set
@@ -140,6 +150,12 @@ namespace InferenceEngine
             return convertedStringList[0];
         }
 
+        /// <summary>
+        /// Converts a propositional logic statement in string form to a list with each operator and literal from the statement
+        /// in the correct order.
+        /// </summary>
+        /// <param name="propositionalLogic">The propositional logic statement to convert</param>
+        /// <returns>A list containing all operators and literals.</returns>
         public List<NodeOrStringInterface> ConvertToStringList(string propositionalLogic)
         {
             string tempString = "";
@@ -147,8 +163,12 @@ namespace InferenceEngine
 
             for (int i = 0; i < propositionalLogic.Length; i++)
             {
+                //If we find a special character (operator) add the previous literal (may be multiple characters)
+                //Then, add the special character 
                 if (_specialCharacters.Contains(propositionalLogic[i]))
                 {
+                    //only add if there is a tempString - there may not be since two operators can appear in a row
+                    //e.g. -(b+a) (the bracket follows directly after the negative)
                     if (!tempString.Equals(""))
                     {
                         returningList.Add(new HoldsString(tempString));
@@ -158,9 +178,12 @@ namespace InferenceEngine
                 }
                 else
                 {
+                    //if we haven't found a special character, we have found a literal (or part of it)
+                    //store this until we find the next special character
                     tempString += propositionalLogic[i];
                 }
             }
+            //add the final term in the statement if there is one left (statement doesn't end with bracket)
             if(tempString != "")
             {
                 returningList.Add(new HoldsString(tempString));
@@ -168,6 +191,12 @@ namespace InferenceEngine
             return returningList;
         }
 
+        /// <summary>
+        /// Validates a propositional logic statement for a given model
+        /// </summary>
+        /// <param name="propositionalLogic">the statement to validate</param>
+        /// <param name="model">the model to evaluate with</param>
+        /// <returns>true if the statement is true for the given model, false otherwise</returns>
         public bool EvaluateLogic(string propositionalLogic, List<string> model)
         {
             List<NodeOrStringInterface> convertedList = ConvertToStringList(propositionalLogic);
@@ -179,6 +208,7 @@ namespace InferenceEngine
             }
             catch(Exception e)
             {
+                //catches exception thrown from improperly converted binary tree - strings present when evaluating logic
                 Console.WriteLine(e.Message);
             }
             return result;

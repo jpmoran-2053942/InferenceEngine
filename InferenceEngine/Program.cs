@@ -42,9 +42,9 @@ namespace InferenceEngine
                         }
                         break;
                     case "BC":
-                        BackwardChainingProver bCP = new BackwardChainingProver();
+                        AlternateBackChain bCP = new AlternateBackChain();
                         HornClauseReader BCHReader = new HornClauseReader();
-                        if (bCP.BackwardChainCheck(BCHReader.GetHornClause(reader.GetKB()), reader.GetQuery()))
+                        if (bCP.BCProver(BCHReader.GetHornClause(reader.GetKB()), reader.GetQuery()))
                         {
                             Console.Write("YES: ");
                         }
@@ -52,7 +52,7 @@ namespace InferenceEngine
                         {
                             Console.Write("NO: ");
                         }
-                        foreach (string s in bCP.ProvenPremises)
+                        foreach (string s in bCP._provenPremises)
                         {
                             Console.Write(s + " ");
                         }

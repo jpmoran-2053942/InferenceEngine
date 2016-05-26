@@ -4,10 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Provides methods to convert knowledge bases to CNF. Works for lists of sentences and single sentences.
+/// Must be provided proper sentences.
+/// </summary>
 namespace InferenceEngine
 {
     class ConvertToCNF : ClauseParsing
     {
+        /// <summary>
+        /// Converts a knowledge base to CNF. Converts each sentence to CNF, then
+        /// removes redundant terms from the resulting sentence.
+        /// </summary>
+        /// <param name="_knowledgebase">Knowlegde base as an array of strings.</param>
+        /// <returns></returns>
         public string ConvertCNF(string[] _knowledgebase)
         {
             string fullSentence = "";
@@ -30,15 +40,26 @@ namespace InferenceEngine
                 }
             }
             
+            //Remove redundant conjunctions from the full sentence.
             return RemoveRedundancies(fullSentence);
         }
 
+        /// <summary>
+        /// Overload for ConvertCNF. Takes a knowledgebase as a string rather than an array.
+        /// </summary>
+        /// <param name="_knowledgebase"></param>
+        /// <returns></returns>
         public string ConvertCNF(string _knowledgebase)
         {
             string[] dummyArray = { _knowledgebase};
             return ConvertCNF(dummyArray);
         }
 
+        /// <summary>
+        /// Converts a single sentence to conjective normal form.
+        /// </summary>
+        /// <param name="sentence">A proper logic sentence.</param>
+        /// <returns>The sentence in conjunctive logic form.</returns>
         protected string ConvertSingle(string sentence)
         {
             int indexOfConnective = GetMainConnective(sentence);
@@ -48,6 +69,8 @@ namespace InferenceEngine
             if (indexOfConnective == -1)
                 return sentence;
 
+            //Convert the main connective of the sentence to CNF format. If there are sub connectives
+            //run this function recursively.
             switch (sentence[indexOfConnective])
             {
                 case '&':
@@ -93,6 +116,7 @@ namespace InferenceEngine
                         P = ConvertSingle(RemoveUnpairedBrackets(O.Substring(0, mainConnectiveO)));
                     Q = ConvertSingle(RemoveUnpairedBrackets(O.Substring(mainConnectiveO + 1)));
 
+                    //If it is & or +, use DeMorgan's Law
                     switch (O[mainConnectiveO])
                     {
                         //DeMorgan's Law
@@ -101,7 +125,7 @@ namespace InferenceEngine
                         //DeMorgan's Law
                         case '+':
                             return ConvertSingle("-(" + P + ")&-(" + Q + ")");
-                        //Double negation
+                        //If it is double negation, return O
                         case '-':
                             return Q;
                         default:
@@ -125,6 +149,7 @@ namespace InferenceEngine
                     break;
             }
 
+            //Should never reach this point.
             return null;
         }
         

@@ -33,8 +33,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlternateBackChain.cs" />
     <Compile Include="ANDNode.cs" />
-    <Compile Include="BackwardChainingProver.cs" />
     <Compile Include="ClauseParsing.cs" />
     <Compile Include="ConjunctiveNormalForm.cs" />
     <Compile Include="ConvertToCNF.cs" />
